@@ -78,7 +78,7 @@ const CERTIFICATES = {
     // { file: "ieee-senior-member.png",  title: "IEEE Senior Member",   issuer: "IEEE",  date: "2025" },
     // { file: "iete-fellow.png",         title: "IETE Fellow",          issuer: "IETE",  date: "2025" },
     // { file: "sas-eminent-fellow.png",  title: "SAS Eminent Fellow",   issuer: "SAS",   date: "2025" },
-    // { file: "scrs-fellow.png",         title: "SCRS Fellow",          issuer: "SCRS",  date: "2025" },
+     { file: "scrs-fellow.png",         title: "SCRS Fellow",          issuer: "SCRS",  date: "2025" },
   ],
 
   // ── certificates/speaking/ ────────────────────────────────
