@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prithvi raj Veluchamy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand" id="nav-brand"></a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="committees.html">Committees</a></li>
+      <li><a href="recognitions.html">Recognitions</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow" id="hero-pills"></div>
+    <h1>Engineering Secure Systems<br><em>and Applied Intelligence</em></h1>
+    <p class="hero-sub" id="hero-sub"></p>
+    <div class="hero-cta">
+      <a href="research.html" class="btn btn-filled">View Research</a>
+      <a href="about.html" class="btn btn-outline">About Me</a>
+    </div>
+  </div>
+  <div class="hero-photo-wrap">
+    <img id="hero-photo" src="" alt="" class="hero-photo">
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="quick-strip">
+  <h3>Professional Connect</h3>
+  <div class="quick-links" id="quick-links"></div>
+</div>
+
+<div class="divider"></div>
+
+<div class="home-cols">
+  <div class="home-col">
+    <h3>Professional Contributions</h3>
+    <ul class="contrib-list">
+      <li>Cloud-native AI and microservices architecture</li>
+      <li>Enterprise pricing systems at Fortune 500 scale</li>
+      <li>Hybrid AI + rule-engine platform design</li>
+      <li>Technical program committee service (16+ conferences)</li>
+      <li>Peer-reviewed research publication (100+ papers reviewed)</li>
+      <li>Keynote speaking and industry judging</li>
+      <li>Mentoring engineers and researchers globally</li>
+    </ul>
+  </div>
+  <div class="home-col">
+    <h3>Profile</h3>
+    <div class="identity-card">
+      <img id="id-photo" src="" alt="" class="identity-photo">
+      <div class="identity-name" id="id-name"></div>
+      <div class="identity-role" id="id-role"></div>
+    </div>
+    <div style="margin-top:1.5rem;">
+      <div class="section-label" style="border-bottom:none;padding-bottom:0;margin-bottom:0.8rem;">Memberships</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;" id="home-badges"></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-copy" id="footer-copy"></div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="data/personal.js"></script>
+<script>
+const P = PERSONAL;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+document.title = P.name;
+$('nav-brand').textContent = P.name;
+$('hero-photo').src = P.photo; $('hero-photo').alt = P.name;
+$('hero-sub').textContent = `${P.role} with 20+ years of experience in cloud-native architectures, AI-enhanced systems, and enterprise-scale platforms across retail, fintech, and telecom.`;
+$('hero-pills').innerHTML = P.memberships.map(m => `<span class="pill blue">${esc(m.text)}</span>`).join('');
+$('quick-links').innerHTML = P.links.map(l => `<a href="${esc(l.url)}" target="_blank" class="quick-link">${esc(l.label)}</a>`).join('');
+$('id-photo').src = P.photo; $('id-photo').alt = P.name;
+$('id-name').textContent = P.name;
+$('id-role').textContent = `${P.role} · ${P.company}`;
+$('home-badges').innerHTML = P.memberships.map(m => `<span class="s-badge s-badge-blue">${esc(m.text)}</span>`).join('');
+$('footer-copy').textContent = `© ${new Date().getFullYear()} ${P.name}. All rights reserved.`;
+</script>
+</body>
+</html>

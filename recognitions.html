@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recognitions | Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .empty-folder {
+    grid-column: 1/-1; padding: 2rem; text-align: center;
+    border: 1px dashed var(--rule); border-radius: 10px;
+    color: var(--muted); font-family: var(--sans); font-size: 0.85rem; line-height: 2;
+  }
+  .empty-folder code { color: var(--accent); background: #dbeafe; padding: 2px 6px; border-radius: 4px; font-family: var(--mono); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand" id="nav-brand"></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="committees.html">Committees</a></li>
+      <li><a href="recognitions.html" class="active">Recognitions</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-header page">
+  <div class="eyebrow">Inspiration &amp; Recognitions</div>
+  <h1>Certificates &amp; Awards</h1>
+  <p>Professional certifications, formal recognitions, and peer acknowledgments. Click any certificate to view full size.</p>
+</div>
+
+<!-- JUDGING -->
+<div class="cert-section fade-in">
+  <div class="section-label">Judging Certificates</div>
+  <p class="cert-intro">Add images to <code style="color:var(--accent);font-family:var(--mono)">certificates/judging/</code> and update <code style="color:var(--accent);font-family:var(--mono)">data/certificates.js</code></p>
+  <div class="cert-grid" id="cert-judging"></div>
+</div>
+
+<!-- PEER REVIEW -->
+<div class="cert-section fade-in">
+  <div class="section-label">Peer Review Certificates — IEEE &amp; International Conferences</div>
+  <p class="cert-intro">Add images to <code style="color:var(--accent);font-family:var(--mono)">certificates/peer-review/</code> and update <code style="color:var(--accent);font-family:var(--mono)">data/certificates.js</code></p>
+  <div class="cert-grid" id="cert-peer-review"></div>
+</div>
+
+<!-- MEMBERSHIPS -->
+<div class="cert-section fade-in">
+  <div class="section-label">Fellow &amp; Senior Memberships</div>
+  <p class="cert-intro">Add images to <code style="color:var(--accent);font-family:var(--mono)">certificates/memberships/</code> and update <code style="color:var(--accent);font-family:var(--mono)">data/certificates.js</code></p>
+  <div class="cert-grid" id="cert-memberships"></div>
+</div>
+
+<!-- SPEAKING -->
+<div class="cert-section fade-in">
+  <div class="section-label">Speaking &amp; Keynote Certificates</div>
+  <p class="cert-intro">Add images to <code style="color:var(--accent);font-family:var(--mono)">certificates/speaking/</code> and update <code style="color:var(--accent);font-family:var(--mono)">data/certificates.js</code></p>
+  <div class="cert-grid" id="cert-speaking"></div>
+</div>
+
+<!-- PUBLICATIONS -->
+<div class="cert-section fade-in" style="padding-bottom:3rem;">
+  <div class="section-label">Publication &amp; Acceptance Certificates</div>
+  <p class="cert-intro">Add images to <code style="color:var(--accent);font-family:var(--mono)">certificates/publications/</code> and update <code style="color:var(--accent);font-family:var(--mono)">data/certificates.js</code></p>
+  <div class="cert-grid" id="cert-publications"></div>
+</div>
+
+<div class="divider"></div>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-copy" id="footer-copy"></div>
+    <div class="footer-links"><a href="index.html">Home</a><a href="contact.html">Contact</a></div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lb-close">✕</button>
+  <img id="lb-img" src="" alt="Certificate">
+</div>
+
+<script src="data/personal.js"></script>
+<script src="data/certificates.js"></script>
+<script>
+const P = PERSONAL, CERTS = CERTIFICATES;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+document.title = `Recognitions | ${P.name}`;
+$('nav-brand').textContent = P.name;
+
+// Map category key → { domId, folder }
+const SECTIONS = [
+  { key: 'judging',      id: 'cert-judging',      folder: 'certificates/judging'      },
+  { key: 'peerReview',   id: 'cert-peer-review',  folder: 'certificates/peer-review'  },
+  { key: 'memberships',  id: 'cert-memberships',  folder: 'certificates/memberships'  },
+  { key: 'speaking',     id: 'cert-speaking',     folder: 'certificates/speaking'     },
+  { key: 'publications', id: 'cert-publications', folder: 'certificates/publications'  },
+];
+
+function certCard(src, title, issuer, date) {
+  return `
+    <a class="cert-card" href="#" onclick="openLB('${src}');return false;">
+      <img class="cert-thumb" src="${esc(src)}" alt="${esc(title)}"
+           onerror="this.style.display='none';this.closest('.cert-card').querySelector('.cert-caption').style.borderTop='none';">
+      <div class="cert-caption">
+        <div class="cert-cap-issuer">${esc(issuer)}</div>
+        <div class="cert-cap-title">${esc(title)}</div>
+        <div class="cert-cap-date">${esc(date)}</div>
+      </div>
+    </a>`;
+}
+
+function emptyMsg(folder, dataKey) {
+  return `<div class="empty-folder">
+    No certificates yet in this category.<br>
+    Upload images to <code>${folder}/</code> then add entries under <code>${dataKey}</code> in <code>data/certificates.js</code>
+  </div>`;
+}
+
+SECTIONS.forEach(({ key, id, folder }) => {
+  const items = CERTS[key] || [];
+  const el = $(id);
+  if (items.length === 0) {
+    el.innerHTML = emptyMsg(folder, key);
+  } else {
+    el.innerHTML = items.map(c =>
+      certCard(`${folder}/${c.file}`, c.title, c.issuer, c.date)
+    ).join('');
+  }
+});
+
+// Lightbox
+function openLB(src) { $('lb-img').src = src; $('lightbox').classList.add('open'); }
+$('lb-close').onclick = () => $('lightbox').classList.remove('open');
+$('lightbox').onclick = e => { if (e.target === $('lightbox')) $('lightbox').classList.remove('open'); };
+document.addEventListener('keydown', e => { if (e.key === 'Escape') $('lightbox').classList.remove('open'); });
+
+$('footer-copy').textContent = `© ${new Date().getFullYear()} ${P.name}. All rights reserved.`;
+
+const obs = new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:.05});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

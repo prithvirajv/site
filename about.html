@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About | Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand" id="nav-brand"></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="committees.html">Committees</a></li>
+      <li><a href="recognitions.html">Recognitions</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-header page">
+  <div class="eyebrow">About</div>
+  <h1 id="ph-name"></h1>
+  <p id="ph-tagline"></p>
+</div>
+
+<div class="about-layout">
+  <!-- SIDEBAR -->
+  <div class="about-sidebar fade-in">
+    <img id="about-photo" src="" alt="" class="about-photo">
+    <div class="sidebar-name" id="sb-name"></div>
+    <div class="sidebar-role" id="sb-role"></div>
+    <div class="sidebar-badges" id="sb-badges"></div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="about-content fade-in">
+    <h2>Professional Overview</h2>
+    <div id="about-bio"></div>
+
+    <h2>Experience</h2>
+    <div class="timeline" id="timeline"></div>
+
+    <h2>Core Skills</h2>
+    <div class="skills-grid" id="skills-grid"></div>
+
+    <h2>Academic &amp; Research Interests</h2>
+    <p>Cloud-native AI architectures, hybrid rule-engine systems, enterprise pricing intelligence, MLOps operationalization, AI governance and auditability in retail decision pipelines, and performance-bound microservices orchestration.</p>
+
+    <h2>Education</h2>
+    <ul id="education-list"></ul>
+
+    <h2>Certifications</h2>
+    <ul id="cert-list"></ul>
+  </div>
+</div>
+
+<div class="divider"></div>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-copy" id="footer-copy"></div>
+    <div class="footer-links"><a href="index.html">Home</a><a href="contact.html">Contact</a></div>
+  </div>
+</footer>
+
+<script src="data/personal.js"></script>
+<script src="data/experience.js"></script>
+<script src="data/skills.js"></script>
+<script>
+const P = PERSONAL, E = EXPERIENCE, S = SKILLS;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+document.title = `About | ${P.name}`;
+$('nav-brand').textContent = P.name;
+$('ph-name').textContent = P.name;
+$('ph-tagline').textContent = `${P.role} · ${P.company} · ${P.location}`;
+$('about-photo').src = P.photo; $('about-photo').alt = P.name;
+$('sb-name').textContent = P.name;
+$('sb-role').textContent = `${P.role}\n${P.company}`;
+$('sb-badges').innerHTML = P.memberships.map(m => `<span class="s-badge s-badge-blue">${esc(m.text)}</span>`).join('');
+$('about-bio').innerHTML = P.bio.map(p => `<p>${p}</p>`).join('');
+$('education-list').innerHTML = P.education.map(e => `<li>${esc(e)}</li>`).join('');
+$('cert-list').innerHTML = P.certifications.map(c => `<li>${esc(c)}</li>`).join('');
+
+// Timeline
+$('timeline').innerHTML = E.map((job, i) => `
+  <div class="tl-item fade-in">
+    <div class="tl-dot${i===0?' active':''}">${String(i+1).padStart(2,'0')}</div>
+    <div class="tl-content">
+      <div class="tl-header"><span class="tl-role">${esc(job.role)}</span><span class="tl-period">${esc(job.period)}</span></div>
+      <div class="tl-company"><span>${esc(job.company)}</span> · ${esc(job.location)}</div>
+      <ul class="tl-bullets">${job.bullets.map(b=>`<li>${esc(b)}</li>`).join('')}</ul>
+      <div class="tl-tech">${job.tech.map(t=>`<span class="tech-chip">${esc(t)}</span>`).join('')}</div>
+    </div>
+  </div>`).join('');
+
+// Skills grid
+$('skills-grid').innerHTML = S.map(s => `
+  <div class="skill-card fade-in">
+    <h3 class="c-${s.color}">${esc(s.category)}</h3>
+    <div class="skill-tags">${s.tags.map(t=>`<span class="skill-tag ${s.color}">${esc(t)}</span>`).join('')}</div>
+  </div>`).join('');
+
+$('footer-copy').textContent = `© ${new Date().getFullYear()} ${P.name}. All rights reserved.`;
+
+const obs = new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:.08});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

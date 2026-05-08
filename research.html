@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research | Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand" id="nav-brand"></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="research.html" class="active">Research</a></li>
+      <li><a href="committees.html">Committees</a></li>
+      <li><a href="recognitions.html">Recognitions</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-header page">
+  <div class="eyebrow">Scholarly Work</div>
+  <h1>Research &amp; Publications</h1>
+  <p>Peer-reviewed IEEE conference papers and journal publications on cloud-native AI systems, enterprise pricing, and retail decision architectures.</p>
+</div>
+
+<div class="section-block">
+  <div class="section-label">IEEE Conference Papers</div>
+  <div id="conf-papers"></div>
+</div>
+
+<div class="section-block">
+  <div class="section-label">Journal Publications</div>
+  <div id="journal-papers"></div>
+</div>
+
+<div class="section-block" style="padding-bottom:3rem;">
+  <div class="section-label">Research Profiles</div>
+  <div style="display:flex;flex-wrap:wrap;gap:0.75rem;" id="research-links"></div>
+</div>
+
+<div class="divider"></div>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-copy" id="footer-copy"></div>
+    <div class="footer-links"><a href="index.html">Home</a><a href="contact.html">Contact</a></div>
+  </div>
+</footer>
+
+<script src="data/personal.js"></script>
+<script src="data/publications.js"></script>
+<script>
+const P = PERSONAL, PUB = PUBLICATIONS;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+document.title = `Research | ${P.name}`;
+$('nav-brand').textContent = P.name;
+
+const conf = PUB.filter(p => p.type.toLowerCase().includes('conference'));
+const jour = PUB.filter(p => !p.type.toLowerCase().includes('conference'));
+
+function pubHTML(pubs) {
+  return pubs.map(p => `
+    <div class="pub-item fade-in">
+      <div class="pub-year">${esc(p.year)}</div>
+      <div class="pub-body">
+        <div class="pub-type">${esc(p.type)}</div>
+        <div class="pub-title">${esc(p.title)}</div>
+        <div class="pub-venue"><strong>${esc(p.venue)}</strong> · ${esc(p.detail)}</div>
+      </div>
+    </div>`).join('');
+}
+
+$('conf-papers').innerHTML   = conf.length ? pubHTML(conf) : '<p style="color:var(--muted);font-family:var(--sans)">No conference papers yet.</p>';
+$('journal-papers').innerHTML = jour.length ? pubHTML(jour) : '<p style="color:var(--muted);font-family:var(--sans)">No journal papers yet.</p>';
+
+$('research-links').innerHTML = P.links
+  .filter(l => ['Google Scholar','ORCID','LinkedIn'].includes(l.label))
+  .map(l => `<a href="${esc(l.url)}" target="_blank" class="quick-link">${esc(l.label)} ↗</a>`).join('');
+
+$('footer-copy').textContent = `© ${new Date().getFullYear()} ${P.name}. All rights reserved.`;
+
+const obs = new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:.08});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

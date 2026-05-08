@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Committees | Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand" id="nav-brand"></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="committees.html" class="active">Committees</a></li>
+      <li><a href="recognitions.html">Recognitions</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-header page">
+  <div class="eyebrow">Community &amp; Service</div>
+  <h1>Committees &amp; Conference Roles</h1>
+  <p>Active contributor to the global research community as a technical program committee member, peer reviewer, keynote speaker, and industry judge.</p>
+</div>
+
+<div class="section-block fade-in">
+  <div class="section-label">Technical Program Committee</div>
+  <div class="comm-table-wrap">
+    <table class="comm-table">
+      <thead><tr><th>Conference</th><th>Location</th><th>Year</th><th>Role</th></tr></thead>
+      <tbody id="tpc-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section-block fade-in">
+  <div class="section-label">
+    Paper Reviews
+    <span id="review-count" style="font-weight:400;color:var(--muted);font-size:0.85em;margin-left:8px;"></span>
+  </div>
+  <div class="comm-table-wrap">
+    <table class="comm-table">
+      <thead><tr><th>Conference</th><th>Location</th><th>Focus Area</th><th>Role</th></tr></thead>
+      <tbody id="review-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section-block fade-in">
+  <div class="section-label">Keynote Speaking</div>
+  <div class="comm-table-wrap">
+    <table class="comm-table">
+      <thead><tr><th>Event</th><th>Location</th><th>Year</th><th>Role</th></tr></thead>
+      <tbody id="speaking-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section-block fade-in" style="padding-bottom:3rem;">
+  <div class="section-label">Industry Judging</div>
+  <div class="comm-table-wrap">
+    <table class="comm-table">
+      <thead><tr><th>Event</th><th>Location</th><th>Year</th><th>Role</th></tr></thead>
+      <tbody id="judge-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="divider"></div>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-copy" id="footer-copy"></div>
+    <div class="footer-links"><a href="index.html">Home</a><a href="contact.html">Contact</a></div>
+  </div>
+</footer>
+
+<script src="data/personal.js"></script>
+<script src="data/committees.js"></script>
+<script>
+const P = PERSONAL, C = COMMITTEES;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+document.title = `Committees | ${P.name}`;
+$('nav-brand').textContent = P.name;
+
+// TPC
+$('tpc-body').innerHTML = C.programCommittee.map(r => `
+  <tr>
+    <td>${esc(r.name)}</td>
+    <td>${esc(r.location)}</td>
+    <td>${esc(r.year)}</td>
+    <td><span class="role-pill role-tpc">TPC Member</span></td>
+  </tr>`).join('');
+
+// Reviews
+$('review-count').textContent = `${C.paperReviews.length} venues`;
+$('review-body').innerHTML = C.paperReviews.map(r => `
+  <tr>
+    <td>${esc(r.name)}</td>
+    <td>${esc(r.location)}</td>
+    <td>${esc(r.focus)}</td>
+    <td><span class="role-pill role-review">Reviewer</span></td>
+  </tr>`).join('');
+
+// Speaking
+$('speaking-body').innerHTML = C.speaking.map(r => `
+  <tr>
+    <td>${esc(r.event)}</td>
+    <td>${esc(r.location)}</td>
+    <td>${esc(r.year)}</td>
+    <td><span class="role-pill role-keynote">Keynote</span></td>
+  </tr>`).join('');
+
+// Judging
+$('judge-body').innerHTML = C.judging.map(r => `
+  <tr>
+    <td>${esc(r.event)}</td>
+    <td>${esc(r.location)}</td>
+    <td>${esc(r.year)}</td>
+    <td><span class="role-pill role-judge">Judge</span></td>
+  </tr>`).join('');
+
+$('footer-copy').textContent = `© ${new Date().getFullYear()} ${P.name}. All rights reserved.`;
+
+const obs = new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:.05});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

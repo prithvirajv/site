@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand" id="nav-brand"></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="committees.html">Committees</a></li>
+      <li><a href="recognitions.html">Recognitions</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-header page">
+  <div class="eyebrow">Get in Touch</div>
+  <h1>Contact</h1>
+  <p>Open to speaking engagements, paper reviews, technical advisory roles, and collaborative research opportunities.</p>
+</div>
+
+<div class="contact-layout">
+  <div>
+    <h2 style="font-size:1.2rem;margin-bottom:1.5rem;">Direct Contact</h2>
+    <div id="contact-direct"></div>
+  </div>
+  <div>
+    <h2 style="font-size:1.2rem;margin-bottom:1.5rem;">Professional Profiles</h2>
+    <div id="contact-profiles"></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-copy" id="footer-copy"></div>
+    <div class="footer-links"><a href="index.html">Home</a><a href="contact.html">Contact</a></div>
+  </div>
+</footer>
+
+<script src="data/personal.js"></script>
+<script>
+const P = PERSONAL;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+document.title = `Contact | ${P.name}`;
+$('nav-brand').textContent = P.name;
+
+$('contact-direct').innerHTML = `
+  <div class="contact-item">
+    <div class="contact-icon">✉</div>
+    <div>
+      <div class="contact-label">IEEE Email</div>
+      <div class="contact-value"><a href="mailto:${esc(P.email)}">${esc(P.email)}</a></div>
+    </div>
+  </div>
+  <div class="contact-item">
+    <div class="contact-icon">📍</div>
+    <div>
+      <div class="contact-label">Location</div>
+      <div class="contact-value">${esc(P.location)}</div>
+    </div>
+  </div>
+  <div class="contact-item">
+    <div class="contact-icon">🏢</div>
+    <div>
+      <div class="contact-label">Current Role</div>
+      <div class="contact-value">${esc(P.role)}<br><span style="color:var(--muted)">${esc(P.company)}</span></div>
+    </div>
+  </div>`;
+
+$('contact-profiles').innerHTML = P.links.map(l => `
+  <div class="contact-item">
+    <div class="contact-icon">${esc(l.icon)}</div>
+    <div>
+      <div class="contact-label">${esc(l.label)}</div>
+      <div class="contact-value"><a href="${esc(l.url)}" target="_blank">${esc(l.sublabel)}</a></div>
+    </div>
+  </div>`).join('');
+
+$('footer-copy').textContent = `© ${new Date().getFullYear()} ${P.name}. All rights reserved.`;
+</script>
+</body>
+</html>
